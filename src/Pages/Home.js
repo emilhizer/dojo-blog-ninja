@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+// import { useState, useEffect } from 'react'
 import BlogList from '../Components/BlogList'
+import useFetch from '../Hooks/useFetch'
 
 function Home() {
 
@@ -8,31 +9,12 @@ function Home() {
   //   { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
   //   { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
   // ])
-  const [blogs, setBlogs] = useState(null)
-  const [isPending, setIsPending] = useState(true)
 
-  // useEffect() runs every time the screen / DOM is rendered
-  // So be careful not to (or if you need to) change state in here
-  //  because changing state will cause the screen to re-render...
-  //  ...infinite loop!
-  useEffect(() => {
-    // set artificial "internet api delay" of 1000ms
-    setTimeout(() => {
-      fetch('http://localhost:8000/blogs')
-      .then(res => {
-        return res.json()
-      })
-      .then(data => {
-        console.log(data)
-        setBlogs(data)
-        setIsPending(false)
-      })
-    }, 1000)
-  }, [])
-  // ^^^ this array added at the end of useEffect
-  //  is the "dependency" array
-  //  only the states identified in this array will cause useEffect to fire again
-  // Therefore an empty array means that *nothing* will cause useEffect to fire again
+  // Moved States: blog, isPending, error to useFectch custom hook
+  // Note: I'm not sure i like the blog's state being inside of useFetch
+  //  I think I'd prefer that state to be here or in a model/data controller
+  //  ...but maybe this is the correct way to do this???
+  const {data: blogs, isPending, error} = useFetch('http://localhost:8000/blogs')
 
   // function handleDelete(id) {
   //   const newBlogs = blogs.filter(blog => blog.id !== id)
@@ -53,6 +35,7 @@ function Home() {
           from running until blogs is non-null
           This is shorthand for "blogs === null ? null : <BlogList />"
       */}
+      {error && <div>Error: {error}</div>}
       {isPending && <div>Loading...</div>}
       { blogs &&
         <BlogList

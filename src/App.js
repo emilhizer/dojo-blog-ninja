@@ -1,14 +1,29 @@
 // import React from 'react' // this is no longer required in react 17.x
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+
 import Navbar from './Layout/Navbar'
 import Home from './Pages/Home'
+import Create from './Pages/Create'
+
 
 function App() {
 
   return (
-    <div className="App">
-      <Navbar />
-      <Home />
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="content">
+          <Switch>
+          <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/create">
+              <Create />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </Router>
   )
 }
 

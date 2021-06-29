@@ -16,6 +16,8 @@ import './index.css'
     2. from *another* Terminal run
     npx json-server --watch data/db.json --port 8000
 
+  To use the React (page) router, from a Terminal run
+    npm install react-router-dom (or optionally react-router-dom@5 to specify version 5)
   
 */
 
